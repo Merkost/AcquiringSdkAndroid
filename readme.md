@@ -120,10 +120,17 @@ val paymentOptions =
         }
     }
 ```
+Устанавливаем настройки терминала
+```kotlin
+paymentOptions.setTerminalParams(
+    "TERMINAL_KEY",  
+    "PUBLIC_KEY",
+)
+```
 Затем регистрируем контракт **MainFormContract**#_Contract_, и вызываем метод **ActivityResultLauncher**#_launch_
 ```kotlin
 val byMainFormPayment = registerForActivityResult(MainFormLauncher.Contract, ActivityResultCallback {})
-byMainFormPayment.launch(MainFormContract.StartData(paymentOptions))
+byMainFormPayment.launch(MainFormLauncher.StartData(paymentOptions))
 ```
 Результат платежа вернется в **ActivityResultCallback**:
 - при успешном платеже возвращается _MainFormLauncher.Success_ - содержащий _paymentId_ идентификатор платежа, опционально _cardId_ - id карты, с которой проводился платеж, тип String и опционально _rebillId_ - rebillId карты, если был совершен рекуррентный платеж
